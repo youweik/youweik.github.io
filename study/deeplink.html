@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepLink 跳转</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            gap: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+        }
+        button {
+            padding: 14px 28px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+        }
+        #btn-location { background: #1677ff; }
+        #btn-iframe   { background: #52c41a; }
+    </style>
+</head>
+<body>
+
+<button id="btn-location">location.href 跳转</button>
+<button id="btn-iframe">iframe 跳转</button>
+
+<script>
+const SCHEME = 'fcapp://fcbox.com/deeplink/hiveconsumer/?ascribeParams=%7B%22accessToken%22%3A%22MTAPP-BktNUxkaEwZLTVMNIgQdmwD2KPXo7twDCAEiGdUUKXeA5twffETWekDw%25252F0jrfa8ux2KDzZQ%25253D%22%2C%22channelCode%22%3A%22MGTVAPP%22%2C%22sceneCode%22%3A%22Points_Center%22%2C%22linkUrl%22%3A%22https%3A%2F%2Fedms.fcbox.com%2FstaticResource%2Fwechat%2Fcoupon-send%2F%23%2FreductionFunds%3Fchannel%3Dmangguo%22%2C%22fromClient%22%3A%22App%22%2C%22other%22%3A%22%7B%5C%22task_type%5C%22%3A%5C%221%5C%22%7D%22%7D';
+const FALLBACK = 'https://apps.apple.com/app/id1259763050';
+
+// 方式一：location.href 跳转
+document.getElementById('btn-location').addEventListener('click', () => {
+    window.location.href = SCHEME;
+    const timer = setTimeout(() => { window.location.href = FALLBACK; }, 2500);
+    window.addEventListener('pagehide', () => { clearTimeout(timer); }, { once: true });
+});
+
+// 方式二：隐藏 iframe 跳转
+document.getElementById('btn-iframe').addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = SCHEME;
+    document.body.appendChild(iframe);
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+        window.location.href = FALLBACK;
+    }, 2500);
+});
+</script>
+
+</body>
+</html>
