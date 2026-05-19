@@ -38,7 +38,8 @@ const FALLBACK = 'https://apps.apple.com/app/id1259763050';
 
 // 方式一：location.href 跳转
 document.getElementById('btn-location').addEventListener('click', () => {
-    window.location.href = SCHEME;
+    // window.location.href = SCHEME;
+    window.open(SCHEME, '_blank');
     const timer = setTimeout(() => { window.location.href = FALLBACK; }, 2500);
     window.addEventListener('pagehide', () => { clearTimeout(timer); }, { once: true });
 });
