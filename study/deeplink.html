@@ -39,7 +39,7 @@ const FALLBACK = 'https://apps.apple.com/app/id1259763050';
 // 方式一：location.href 跳转
 document.getElementById('btn-location').addEventListener('click', () => {
     // window.location.href = SCHEME;
-    window.open(SCHEME, '_blank');
+    window.open(SCHEME);
     const timer = setTimeout(() => { window.location.href = FALLBACK; }, 2500);
     window.addEventListener('pagehide', () => { clearTimeout(timer); }, { once: true });
 });
@@ -48,6 +48,7 @@ document.getElementById('btn-location').addEventListener('click', () => {
 document.getElementById('btn-iframe').addEventListener('click', () => {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
+    iframe.sandbox = 'allow-same-origin allow-scripts allow-popups allow-modals allow-top-navigation';
     iframe.src = SCHEME;
     document.body.appendChild(iframe);
     setTimeout(() => {
