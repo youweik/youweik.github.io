@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>芯片先进封装与基板技术深度分析报告</title>
+<style>
+:root{--bg:#f7f8fc;--bg2:#eef1f8;--bg3:#e4e8f2;--card:#fff;--border:#dce2ef;--text:#1a2035;--text2:#4a5568;--text3:#8896ab;--shadow:0 2px 8px rgba(30,40,80,.06);--r:14px;
+--c1:#6366f1;--c1b:#eef2ff;--c1l:#c7d2fe;--c2:#059669;--c2b:#ecfdf5;--c2l:#a7f3d0;--c3:#d97706;--c3b:#fffbeb;--c3l:#fde68a;--c4:#dc2626;--c4b:#fef2f2;--c4l:#fecaca;--c5:#7c3aed;--c5b:#f5f3ff;--c5l:#ddd6fe;--c6:#0891b2;--c6b:#ecfeff;--c6l:#a5f3fc}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;background:var(--bg);color:var(--text);line-height:1.85;font-size:15.5px}
+a{color:var(--c1);text-decoration:none}a:hover{color:var(--c5);text-decoration:underline}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+.hdr{position:relative;padding:72px 24px 48px;text-align:center;background:linear-gradient(135deg,#eef2ff 0%,#ecfdf5 35%,#fffbeb 65%,#fef2f2 100%);overflow:hidden}
+.hdr::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(99,102,241,.07),transparent 70%);border-radius:50%}
+.hdr .badge{display:inline-block;padding:5px 18px;background:var(--c1b);border:1px solid var(--c1l);border-radius:50px;font-size:12px;font-weight:600;color:var(--c1);margin-bottom:22px}
+.hdr h1{font-size:clamp(1.7rem,4.5vw,2.8rem);font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.35}
+.hdr p{font-size:1rem;color:var(--text2);max-width:660px;margin:0 auto}
+.hdr .nums{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.hdr .n{text-align:center}.hdr .n b{display:block;font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hdr .n span{font-size:11px;color:var(--text3)}
+
+.side{width:250px;position:fixed;top:0;left:0;height:100vh;background:var(--card);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;z-index:100;transition:transform .3s;box-shadow:var(--shadow)}
+.side-t{padding:0 18px 14px;font-size:14px;font-weight:700;color:var(--c1);border-bottom:1px solid var(--border);margin-bottom:8px}
+.side nav a{display:block;padding:5px 18px;color:var(--text2);font-size:12.5px;border-left:3px solid transparent;transition:.15s}
+.side nav a:hover,.side nav a.active{color:var(--c1);background:var(--c1b);border-left-color:var(--c1);text-decoration:none}
+.side nav a.lv2{padding-left:32px;font-size:11.5px}
+
+.main{margin-left:250px;padding:32px 48px 80px;max-width:880px}
+.sec{margin-bottom:48px;scroll-margin-top:28px}
+.sec h2{font-size:1.5rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.sec h3{font-size:1.12rem;font-weight:600;margin:24px 0 10px;color:var(--text)}
+.sec h4{font-size:.98rem;font-weight:600;margin:16px 0 6px;color:var(--c1)}
+.sec p{margin-bottom:12px;color:var(--text2)}
+.sec ul,.sec ol{margin:8px 0 12px 20px;color:var(--text2)}.sec li{margin-bottom:4px}
+
+.box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:20px 0;box-shadow:var(--shadow)}
+.box-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.box-h .ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
+.box-h .tt{font-size:1.2rem;font-weight:700;color:var(--text)}.box-h .tt small{font-size:12px;font-weight:400;color:var(--text3);margin-left:4px}
+
+.cal{padding:12px 16px;border-radius:10px;margin:14px 0;border:1px solid;font-size:14px}
+.cal-g{background:var(--c2b);border-color:var(--c2l)}.cal-g::before{content:'💡 ';font-weight:700;color:var(--c2)}
+.cal-w{background:var(--c3b);border-color:var(--c3l)}.cal-w::before{content:'⚠️ ';font-weight:700;color:var(--c3)}
+.cal-b{background:var(--c1b);border-color:var(--c1l)}.cal-b::before{content:'📖 ';font-weight:700;color:var(--c1)}
+.cal-r{background:var(--c4b);border-color:var(--c4l)}.cal-r::before{content:'🔴 ';font-weight:700;color:var(--c4)}
+
+.tw{overflow-x:auto;margin:12px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg2);padding:9px 14px;text-align:left;font-weight:600;color:var(--text);border-bottom:2px solid var(--border);white-space:nowrap;font-size:12px}
+td{padding:8px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+
+.fl{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:14px 0;justify-content:center}
+.fi{background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:8px;font-size:12px;box-shadow:var(--shadow)}
+.fa{color:var(--c1);font-size:14px}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.vs-c{background:var(--card);border-radius:var(--r);padding:18px;border:1px solid var(--border)}
+.vs-c h4{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--text);font-size:14px}
+
+.leg{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.leg span{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.leg-g{background:var(--c2b);color:var(--c2)}.leg-y{background:var(--c3b);color:var(--c3)}.leg-r{background:var(--c4b);color:var(--c4)}.leg-b{background:var(--c1b);color:var(--c1)}
+
+.ft{text-align:center;padding:32px 20px;border-top:1px solid var(--border);color:var(--text3);font-size:12px;margin-left:250px;background:var(--bg2)}
+.bt{position:fixed;bottom:20px;right:20px;width:36px;height:36px;background:var(--c1);color:#fff;border:none;border-radius:50%;font-size:14px;cursor:pointer;opacity:0;transition:.3s;z-index:200;box-shadow:0 3px 10px rgba(99,102,241,.3)}
+.bt.show{opacity:1}
+.mt{display:none;position:fixed;top:10px;left:10px;z-index:200;width:34px;height:34px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;cursor:pointer;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+@media(max-width:900px){.side{transform:translateX(-100%)}.side.open{transform:translateX(0)}.mt{display:flex}.main{margin-left:0;padding:18px}.ft{margin-left:0}.vs{grid-template-columns:1fr}}
+.fi2{opacity:0;transform:translateY(12px);transition:all .45s ease}.fi2.v{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<button class="mt" onclick="document.querySelector('.side').classList.toggle('open')">☰</button>
+
+<section class="hdr">
+<div class="badge">🔬 半导体深度研报 · 2026年5月</div>
+<h1>先进封装与基板技术<br>深度分析报告</h1>
+<p>CoWoS · 玻璃基板 · PCB/IC载板 · CPO 共封装光学 —— 四大赛道全景解析：产业链、量产进度、风险与国产替代</p>
+<div class="nums">
+<div class="n"><b>4</b><span>核心赛道</span></div>
+<div class="n"><b>587亿$</b><span>2026先进封装市场</span></div>
+<div class="n"><b>9-11万</b><span>CoWoS月产能(片)</span></div>
+<div class="n"><b>2026</b><span>玻璃基板/CPO量产元年</span></div>
+</div>
+</section>
+
+<aside class="side">
+<div class="side-t">📊 报告目录</div>
+<nav>
+<a href="#bg">产业背景</a>
+<a href="#cowos">CoWoS 先进封装</a>
+<a href="#cowos-chain" class="lv2">产业链</a>
+<a href="#cowos-prod" class="lv2">量产情况</a>
+<a href="#cowos-cn" class="lv2">国产进展</a>
+<a href="#glass">玻璃基板</a>
+<a href="#glass-chain" class="lv2">产业链</a>
+<a href="#glass-prod" class="lv2">量产进度</a>
+<a href="#glass-cn" class="lv2">国产进展</a>
+<a href="#pcb">PCB / IC载板</a>
+<a href="#pcb-chain" class="lv2">产业链</a>
+<a href="#pcb-cn" class="lv2">国产替代</a>
+<a href="#cpo">CPO 共封装光学</a>
+<a href="#cpo-chain" class="lv2">产业链</a>
+<a href="#cpo-prod" class="lv2">量产进度</a>
+<a href="#cpo-cn" class="lv2">国产进展</a>
+<a href="#compare">四大赛道对比</a>
+<a href="#risk">风险总览</a>
+<a href="#outlook">展望与结论</a>
+</nav>
+</aside>
+
+<div style="display:flex;max-width:1400px;margin:0 auto">
+<main class="main">
+
+<!-- ===== 产业背景 ===== -->
+<section class="sec fi2" id="bg">
+<h2>🌐 产业背景</h2>
+<p>AI 算力爆发推动芯片封装从「配角」变成「主角」。当制程工艺逼近物理极限（2nm），<strong>先进封装</strong>成为延续摩尔定律的关键路径。2026 年全球先进封装市场规模预计达 <strong>587 亿美元</strong>，同比增长约 97%。</p>
+
+<div class="cal-b">
+<strong>核心逻辑</strong>：芯片制程越先进 → 芯片面积越大 → 需要更强的封装来连接多个芯片 → 先进封装（CoWoS、玻璃基板等）成为瓶颈和机会。
+</div>
+
+<h3>四大技术赛道定位</h3>
+<div class="tw">
+<table>
+<tr><th>赛道</th><th>定位</th><th>一句话理解</th><th>成熟度</th></tr>
+<tr><td><strong>CoWoS</strong></td><td>高端先进封装</td><td>把多个芯片「拼」在一起的积木技术</td><td>⭐⭐⭐⭐⭐ 量产中</td></tr>
+<tr><td><strong>玻璃基板</strong></td><td>下一代封装基板</td><td>替代传统有机基板的「新材料底盘」</td><td>⭐⭐⭐ 量产元年</td></tr>
+<tr><td><strong>PCB/IC载板</strong></td><td>电子互联基石</td><td>所有电子产品的「地基」</td><td>⭐⭐⭐⭐⭐ 成熟市场</td></tr>
+<tr><td><strong>CPO</strong></td><td>光电融合封装</td><td>把光模块塞进芯片封装里</td><td>⭐⭐ 量产元年</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== CoWoS ==================== -->
+<section class="sec fi2" id="cowos">
+<h2>🧱 CoWoS 先进封装</h2>
+
+<div class="box">
+<div class="box-h"><div class="ic" style="background:var(--c1)">C</div><div class="tt">CoWoS <small>Chip-on-Wafer-on-Substrate</small></div></div>
+<p><strong>是什么</strong>：台积电（TSMC）开发的 2.5D/3D 先进封装技术。把多个芯片（GPU + HBM 内存等）并排放在硅中介层（Interposer）上，再封装到基板上。就像在一个托盘上同时放好几个积木块，让它们紧密协作。</p>
+<p><strong>为什么重要</strong>：NVIDIA 的 A100/H100/B100/B200 系列 AI 芯片全部依赖 CoWoS 封装。没有 CoWoS，就无法制造出算力强大的 AI 芯片。</p>
+<div class="fl">
+<div class="fi">🖥️ GPU 芯片</div><div class="fa">+</div>
+<div class="fi">💾 HBM 内存</div><div class="fa">→</div>
+<div class="fi" style="border-color:var(--c1);color:var(--c1)">CoWoS 封装</div><div class="fa">=</div>
+<div class="fi">🤖 AI 超算芯片</div>
+</div>
+</div>
+
+<h3 id="cowos-chain">产业链与上下游</h3>
+<div class="tw">
+<table>
+<tr><th>环节</th><th>上游（材料/设备）</th><th>中游（制造）</th><th>下游（客户）</th></tr>
+<tr><td><strong>关键角色</strong></td>
+<td>ABF 载板（味之素/欣兴）<br>硅中介层<br>TSV 钻孔设备<br>键合设备（K&S/BESI）</td>
+<td><strong>台积电</strong>（绝对霸主，>80%份额）<br>日月光/Amkor（OSAT）<br>长电科技/通富微电（国内）</td>
+<td>NVIDIA（最大客户，>50%）<br>AMD / Broadcom / Google<br>Apple / Amazon / Meta</td></tr>
+</table>
+</div>
+
+<div class="fl">
+<div class="fi">🏭 材料</div><div class="fa">→</div><div class="fi">🔧 设备</div><div class="fa">→</div><div class="fi" style="border-color:var(--c1);color:var(--c1)">🏗️ 封装（台积电）</div><div class="fa">→</div><div class="fi">🖥️ AI 芯片</div><div class="fa">→</div><div class="fi">☁️ 云计算/AI</div>
+</div>
+
+<h3 id="cowos-prod">量产情况</h3>
+<div class="tw">
+<table>
+<tr><th>时间</th><th>CoWoS 产能（月）</th><th>备注</th></tr>
+<tr><td>2024 年底</td><td>~3-4 万片</td><td>严重供不应求</td></tr>
+<tr><td>2025 年底</td><td>~6-7 万片</td><td>台积电扩产，收购群创厂房</td></tr>
+<tr><td><strong>2026 年（预测）</strong></td><td><strong>9-11 万片</strong></td><td>嘉义+南科新厂投产，OSAT 扩产加速</td></tr>
+</table>
+</div>
+<div class="cal-w">
+<strong>供需矛盾</strong>：尽管产能持续扩张，但 NVIDIA B100/B200 系列芯片面积是 H100 的 2 倍，单个芯片消耗的 CoWoS 用量翻倍。2026 年供需仍然偏紧。
+</div>
+
+<h3 id="cowos-cn">国产进展</h3>
+<div class="cal-g">
+<strong>好消息</strong>：封测是中国半导体产业链中<strong>国产化率最高</strong>的环节（>40%），也是地缘政治影响最小的领域。
+</div>
+<div class="tw">
+<table>
+<tr><th>国内厂商</th><th>进展</th><th>对比台积电</th></tr>
+<tr><td><strong>长电科技</strong></td><td>全栈技术布局，车规级封测基地投产，2.5D/3D 封装量产</td><td>技术差距约 1-2 代</td></tr>
+<tr><td><strong>通富微电</strong></td><td>掌握 4nm Chiplet 量产，AMD 核心封测供应商，MI300 封装</td><td>3D 堆叠良率据称比台积电高 5%</td></tr>
+<tr><td><strong>华天科技</strong></td><td>Chiplet/2.5D 封装技术储备，积极扩产</td><td>规模差距较大</td></tr>
+<tr><td><strong>日月光投控（大陆厂）</strong></td><td>先进封装产能 2026 年底达 20 Kwpm</td><td>全球 OSAT 龙头</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== 玻璃基板 ==================== -->
+<section class="sec fi2" id="glass">
+<h2>🔮 玻璃基板</h2>
+
+<div class="box">
+<div class="box-h"><div class="ic" style="background:var(--c2)">G</div><div class="tt">玻璃基板 <small>Glass Substrate / Glass Core</small></div></div>
+<p><strong>是什么</strong>：用玻璃替代传统有机材料（如 ABF）作为芯片封装的基板。玻璃具有更好的电学性能、更低的热膨胀系数、更高的机械稳定性，可以支持更大尺寸和更高密度的封装。</p>
+<p><strong>为什么需要</strong>：AI 芯片越来越大（如 NVIDIA B200 面积超过 2000mm²），传统有机基板在翘曲、信号完整性方面已接近极限。玻璃基板是解决之道。</p>
+
+<div class="vs">
+<div class="vs-c">
+<h4 style="color:var(--c3)">🟤 传统有机基板（ABF/BT）</h4>
+<ul style="font-size:12px;margin-left:14px">
+<li>❌ 尺寸受限，大面积翘曲严重</li>
+<li>❌ 高频信号损耗大</li>
+<li>❌ 热膨胀系数与硅不匹配</li>
+<li>✅ 技术成熟，成本低</li>
+</ul>
+</div>
+<div class="vs-c">
+<h4 style="color:var(--c2)">🟢 玻璃基板</h4>
+<ul style="font-size:12px;margin-left:14px">
+<li>✅ 尺寸可做得更大</li>
+<li>✅ 介电常数低，信号损耗小</li>
+<li>✅ 热稳定性好，几乎不翘曲</li>
+<li>⚠️ 成本高，加工难度大</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 id="glass-chain">产业链</h3>
+<div class="tw">
+<table>
+<tr><th>环节</th><th>关键参与者</th></tr>
+<tr><td>玻璃原材料</td><td>康宁（Corning）、日本电气硝子（NEG）、肖特（SCHOTT）</td></tr>
+<tr><td>TGV 通孔加工</td><td>乐普科（LPKF）、日本 Disc、锐科激光（国内）</td></tr>
+<tr><td>金属化/电镀</td><td>陶氏化学、安美特、芯碁微装（国内）</td></tr>
+<tr><td>基板制造</td><td>Intel、三星电机、台积电、欣兴电子</td></tr>
+<tr><td>国内厂商</td><td>奕成科技、芯德半导体、安捷利美维、沃格光电</td></tr>
+</table>
+</div>
+
+<h3 id="glass-prod">量产进度</h3>
+<div class="tw">
+<table>
+<tr><th>厂商</th><th>进展</th><th>量产时间</th></tr>
+<tr><td><strong>Intel</strong></td><td>业界首推玻璃基板，Xeon 6+ 处理器采用玻璃核心基板量产</td><td>2026 年已量产</td></tr>
+<tr><td><strong>三星电机</strong></td><td>已向 Intel、博通提供样品，计划大规模量产</td><td>2026-2027 年</td></tr>
+<tr><td><strong>台积电</strong></td><td>加速开发玻璃面板级封装（FOPLP）</td><td>2027 年后</td></tr>
+<tr><td><strong>奕成科技（国内）</strong></td><td>2024 年率先量产 FOMCM 平台，填补国内空白</td><td>2024 年已量产</td></tr>
+<tr><td><strong>芯德半导体（国内）</strong></td><td>2.5D 玻璃转接板研发中</td><td>2026-2027 年</td></tr>
+</table>
+</div>
+<div class="cal-b">
+<strong>2026 年 = 玻璃基板量产元年</strong>。Intel 率先量产，三星跟进。预计 2030 年先进封装市场规模突破 794 亿美元，玻璃基板将抢占百亿美元替代空间。
+</div>
+
+<h3 id="glass-cn">国产进展</h3>
+<div class="cal-w">
+<strong>差距与机会</strong>：国内在玻璃基板领域起步不晚（奕成科技 2024 年已量产 FOMCM），但在核心材料（玻璃原材料被 Corning/NEG 垄断）和 TGV 精密加工设备上仍有差距。
+</div>
+<div class="tw">
+<table>
+<tr><th>国内厂商</th><th>进展</th><th>技术水平</th></tr>
+<tr><td>奕成科技</td><td>FOMCM 平台已量产，面板级封装</td><td>⭐⭐⭐⭐ 国内领先</td></tr>
+<tr><td>沃格光电</td><td>TGV 玻璃通孔技术突破</td><td>⭐⭐⭐</td></tr>
+<tr><td>安捷利美维</td><td>高层数 TGV 解决方案（8+2+8）</td><td>⭐⭐⭐</td></tr>
+<tr><td>锐科激光</td><td>TGV 激光诱导孔蚀刻设备</td><td>⭐⭐⭐ 设备替代</td></tr>
+<tr><td>芯德半导体</td><td>2.5D 玻璃转接板</td><td>⭐⭐ 研发阶段</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== PCB ==================== -->
+<section class="sec fi2" id="pcb">
+<h2>📐 PCB / IC 载板</h2>
+
+<div class="box">
+<div class="box-h"><div class="ic" style="background:var(--c3)">P</div><div class="tt">PCB & IC载板 <small>Printed Circuit Board / IC Substrate</small></div></div>
+<p><strong>PCB</strong>（印刷电路板）是所有电子产品的基础，像「电子产品的地基建」。<strong>IC 载板</strong>是 PCB 的高端细分领域，直接搭载芯片，是芯片与 PCB 之间的桥梁。</p>
+<p><strong>ABF 载板</strong>（Ajinomoto Build-up Film）是 IC 载板中技术含量最高的品类，用于 CPU、GPU 等高端芯片，被日本味之素（Ajinomoto）垄断关键材料。</p>
+</div>
+
+<h3 id="pcb-chain">产业链</h3>
+<div class="fl">
+<div class="fi">🧪 铜箔/玻纤布/树脂</div><div class="fa">→</div><div class="fi">📋 覆铜板 CCL</div><div class="fa">→</div><div class="fi" style="border-color:var(--c3);color:var(--c3)">🏭 PCB/载板制造</div><div class="fa">→</div><div class="fi">🔧 SMT 贴装</div><div class="fa">→</div><div class="fi">📱 终端产品</div>
+</div>
+
+<div class="tw">
+<table>
+<tr><th>环节</th><th>全球格局</th><th>国内现状</th></tr>
+<tr><td>ABF 材料</td><td>日本味之素垄断（>90%）</td><td>华正新材等研发中，国产化率极低</td></tr>
+<tr><td>BT 材料</td><td>日本三菱瓦斯化学主导</td><td>生益科技、华正新材积极追赶</td></tr>
+<tr><td>高端 IC 载板</td><td>台湾欣兴/景硕/南电，韩国三星电机</td><td>深南电路、兴森科技布局中</td></tr>
+<tr><td>普通 PCB</td><td>中国大陆占全球 >50%</td><td>✅ 全球最大生产基地</td></tr>
+</table>
+</div>
+
+<h3 id="pcb-cn">国产替代情况</h3>
+<div class="leg">
+<span class="leg-g">✅ 已突破</span>
+<span class="leg-y">🔄 追赶中</span>
+<span class="leg-r">❌ 差距大</span>
+</div>
+<div class="tw">
+<table>
+<tr><th>领域</th><th>国产化水平</th><th>代表厂商</th><th>差距</th></tr>
+<tr><td>普通 PCB</td><td><span class="leg-g" style="padding:1px 8px">✅ 全球领先</span></td><td>鹏鼎控股、东山精密、深南电路</td><td>无差距</td></tr>
+<tr><td>HDI PCB</td><td><span class="leg-g" style="padding:1px 8px">✅ 已量产</span></td><td>鹏鼎控股、珠海方正</td><td>基本无差距</td></tr>
+<tr><td>BT 载板</td><td><span class="leg-y" style="padding:1px 8px">🔄 追赶中</span></td><td>深南电路、兴森科技</td><td>中低端已突破，高端差距 2-3 年</td></tr>
+<tr><td>ABF 载板</td><td><span class="leg-r" style="padding:1px 8px">❌ 差距大</span></td><td>兴森科技、珠海越亚</td><td>国产化率 <5%，差距 5+ 年</td></tr>
+</table>
+</div>
+
+<div class="cal-g">
+<strong>AI 带来的机会</strong>：AI 算力需求爆发带来 PCB/载板巨量订单，海外产能跟不上，给国内厂商留出窗口期。深南电路、兴森科技等正从「做得出」升级为「做得稳、良率高」。
+</div>
+</section>
+
+<!-- ==================== CPO ==================== -->
+<section class="sec fi2" id="cpo">
+<h2>💡 CPO 共封装光学</h2>
+
+<div class="box">
+<div class="box-h"><div class="ic" style="background:var(--c6)">O</div><div class="tt">CPO <small>Co-Packaged Optics 共封装光学</small></div></div>
+<p><strong>是什么</strong>：把光学引擎（光模块）和交换芯片（ASIC）封装在一起的技术。传统方案中光模块是独立插在交换机外面的，CPO 把它塞进芯片封装里，大幅缩短光电转换距离，降低功耗、提升带宽。</p>
+
+<div class="vs">
+<div class="vs-c">
+<h4>🔌 传统方案（可插拔光模块）</h4>
+<ul style="font-size:12px;margin-left:14px">
+<li>光模块 → 铜线 → 交换芯片</li>
+<li>铜线传输功耗高、距离受限</li>
+<li>100G/通道已达瓶颈</li>
+<li>✅ 易维护，可热插拔</li>
+</ul>
+</div>
+<div class="vs-c">
+<h4>💡 CPO 方案（共封装光学）</h4>
+<ul style="font-size:12px;margin-left:14px">
+<li>光引擎与 ASIC 封装在一起</li>
+<li>光电转换距离极短，功耗降 50%+</li>
+<li>支持 200G+/通道</li>
+<li>⚠️ 维护难，故障需更换整机</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 id="cpo-chain">产业链</h3>
+<div class="tw">
+<table>
+<tr><th>环节</th><th>关键参与者</th><th>国产化</th></tr>
+<tr><td>硅光芯片</td><td>Intel、Broadcom、Marvell、台积电（COUPE）</td><td>⭐⭐ 国产起步</td></tr>
+<tr><td>光引擎封装</td><td>台积电、日月光、长电科技</td><td>⭐⭐⭐ 国内较强</td></tr>
+<tr><td>激光器/探测器</td><td>Lumentum、Coherent、II-VI</td><td>⭐⭐ 差距较大</td></tr>
+<tr><td>光纤连接器</td><td>天孚通信、太辰光、新易盛</td><td>⭐⭐⭐⭐ 国内领先</td></tr>
+<tr><td>光模块</td><td><strong>中际旭创</strong>、<strong>新易盛</strong>、光迅科技</td><td>⭐⭐⭐⭐ 国内全球领先</td></tr>
+<tr><td>交换芯片</td><td>NVIDIA、Broadcom、Cisco</td><td>⭐ 差距大</td></tr>
+</table>
+</div>
+
+<h3 id="cpo-prod">量产进度</h3>
+<div class="tw">
+<table>
+<tr><th>时间节点</th><th>事件</th><th>意义</th></tr>
+<tr><td>2026 年 4 月</td><td>台积电宣布 COUPE 硅光整合平台年内量产</td><td>CPO 进入商业化元年</td></tr>
+<tr><td>2026 GTC</td><td>NVIDIA 明确将 CPO 作为关键路线</td><td>行业方向确认</td></tr>
+<tr><td>2026 年 Q4（计划）</td><td>NVIDIA 启动 CPO 量产，率先部署 CPO 交换机</td><td>首次大规模商用</td></tr>
+<tr><td>2026 年</td><td>CPO 在 AI 数据中心光模块渗透率 ~0.5%</td><td>渗透初期，空间巨大</td></tr>
+<tr><td>2027-2028 年</td><td>CPO 规模化部署加速</td><td>预计 200G/通道成为主流</td></tr>
+</table>
+</div>
+
+<div class="cal-r">
+<strong>关键挑战</strong>：CPO 当前量产良率仅 ~90%（目标 >95%），3D 堆叠工艺复杂度远超传统光模块。故障时需更换整机（不像可插拔模块单独更换），运维成本高。大规模普及预计 2028 年后。
+</div>
+
+<h3 id="cpo-cn">国产进展</h3>
+<div class="cal-g">
+<strong>亮点</strong>：中国在光模块领域全球领先，中际旭创是全球最大的光模块厂商之一，已深度切入 NVIDIA 和 Meta 的供应链。
+</div>
+<div class="tw">
+<table>
+<tr><th>国内厂商</th><th>布局</th><th>优势</th></tr>
+<tr><td><strong>中际旭创</strong></td><td>800G/1.6T 硅光模块量产，CPO 技术储备，2026 年产能大幅提升</td><td>全球光模块龙头</td></tr>
+<tr><td><strong>新易盛</strong></td><td>800G/1.6T 光模块，业绩大幅增长</td><td>成本控制能力强</td></tr>
+<tr><td><strong>天孚通信</strong></td><td>光连接器、波分复用器件，CPO 光引擎关键组件</td><td>精密光学器件领先</td></tr>
+<tr><td><strong>光迅科技</strong></td><td>硅光芯片自研，CPO 布局</td><td>芯片级自主能力</td></tr>
+<tr><td><strong>太辰光</strong></td><td>保偏 MPO、光纤连接器</td><td>CPO 光纤互联配套</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== 对比总表 ==================== -->
+<section class="sec fi2" id="compare">
+<h2>📊 四大赛道综合对比</h2>
+
+<div class="tw">
+<table>
+<tr><th>维度</th><th>🧱 CoWoS</th><th>🔮 玻璃基板</th><th>📐 PCB/IC载板</th><th>💡 CPO</th></tr>
+<tr><td><strong>技术阶段</strong></td><td>大规模量产</td><td>量产元年</td><td>成熟市场+升级</td><td>量产元年</td></tr>
+<tr><td><strong>市场规模(2026)</strong></td><td>~587 亿美元（先进封装整体）</td><td>~10+ 亿美元（起步期）</td><td>~800 亿美元（PCB整体）</td><td>~5 亿美元（渗透初期）</td></tr>
+<tr><td><strong>增速</strong></td><td>97% YoY</td><td>30%+ CAGR</td><td>5-8% 稳健增长</td><td>爆发式增长</td></tr>
+<tr><td><strong>核心瓶颈</strong></td><td>产能不足</td><td>良率/成本</td><td>ABF 材料垄断</td><td>良率/维护性</td></tr>
+<tr><td><strong>龙头</strong></td><td>台积电（>80%）</td><td>Intel / 三星</td><td>欣兴/鹏鼎/TTM</td><td>NVIDIA / 台积电</td></tr>
+<tr><td><strong>国产最强</strong></td><td>长电/通富微电</td><td>奕成科技</td><td>深南电路/兴森</td><td>中际旭创/新易盛</td></tr>
+<tr><td><strong>国产化率</strong></td><td>~15%（高端）</td><td>~5%</td><td>普通 PCB >50%<br>ABF载板 <5%</td><td>光模块 >30%<br>硅光芯片 <5%</td></tr>
+<tr><td><strong>投资热度</strong></td><td>🔥🔥🔥🔥🔥</td><td>🔥🔥🔥🔥</td><td>🔥🔥🔥</td><td>🔥🔥🔥🔥🔥</td></tr>
+</table>
+</div>
+</section>
+
+<!-- ==================== 风险 ==================== -->
+<section class="sec fi2" id="risk">
+<h2>⚠️ 风险总览</h2>
+
+<h3>各赛道核心风险</h3>
+<div class="tw">
+<table>
+<tr><th>赛道</th><th>技术风险</th><th>市场风险</th><th>地缘风险</th></tr>
+<tr><td><strong>CoWoS</strong></td><td>大规模芯片良率控制难度大</td><td>产能过度扩张可能供过于求（2027后）</td><td>台积电垄断，美国出口管制影响国内获取</td></tr>
+<tr><td><strong>玻璃基板</strong></td><td>TGV 通孔加工良率低，玻璃易碎</td><td>成本远高于有机基板，客户接受度待验证</td><td>玻璃原材料被 Corning/NEG 垄断</td></tr>
+<tr><td><strong>PCB/IC载板</strong></td><td>ABF 载板高层数技术壁垒高</td><td>行业周期性强，价格战激烈</td><td>ABF 材料完全依赖日本进口</td></tr>
+<tr><td><strong>CPO</strong></td><td>3D 堆叠良率仅 ~90%，硅光集成难度极高</td><td>大规模普及预计 2028 年后，短期业绩难兑现</td><td>硅光芯片技术被美企垄断</td></tr>
+</table>
+</div>
+
+<div class="cal-r">
+<strong>共同风险</strong>：① AI 算力需求增速放缓 → 产业链需求不及预期；② 地缘政治升级 → 设备/材料禁运加剧；③ 技术路线变更（如出现替代方案）→ 已投入的产线成为沉没成本。
+</div>
+</section>
+
+<!-- ==================== 展望 ==================== -->
+<section class="sec fi2" id="outlook">
+<h2>🔭 展望与结论</h2>
+
+<h3>2026-2028 关键趋势</h3>
+<div class="tw">
+<table>
+<tr><th>时间</th><th>CoWoS</th><th>玻璃基板</th><th>PCB/载板</th><th>CPO</th></tr>
+<tr><td><strong>2026</strong></td><td>产能达 9-11 万片/月，OSAT 加速扩产</td><td>Intel/三星量产元年</td><td>AI 订单爆发，国产 HDI 升级</td><td>台积电 COUPE 量产，渗透率 0.5%</td></tr>
+<tr><td><strong>2027</strong></td><td>供需趋于平衡，价格可能回落</td><td>量产加速，更多厂商跟进</td><td>ABF 载板国产化突破</td><td>200G/通道成主流，渗透率快速提升</td></tr>
+<tr><td><strong>2028+</strong></td><td>下一代封装（CoPoS/3D SoIC）迭代</td><td>替代有机基板份额扩大</td><td>玻璃基板冲击传统高端市场</td><td>CPO 大规模部署，取代部分可插拔模块</td></tr>
+</table>
+</div>
+
+<h3>国产替代核心结论</h3>
+<div class="box" style="border-left:4px solid var(--c1)">
+<p><strong>1. 最有希望的赛道：CPO 光模块</strong></p>
+<p>中际旭创、新易盛已是全球光模块龙头，深度切入 NVIDIA/Meta 供应链。中国在 CPO 产业链的中下游（光模块、光纤连接器）具有全球竞争力。</p>
+</div>
+<div class="box" style="border-left:4px solid var(--c2)">
+<p><strong>2. 进步最快的赛道：先进封装（CoWoS 相关）</strong></p>
+<p>封测是国产化率最高的半导体环节。长电科技、通富微电已具备 4nm Chiplet 量产能力。地缘政治影响小，是国产替代的优先方向。</p>
+</div>
+<div class="box" style="border-left:4px solid var(--c3)">
+<p><strong>3. 潜力最大的赛道：玻璃基板</strong></p>
+<p>技术处于早期，国内外差距不大。奕成科技 2024 年已量产 FOMCM，国内有望在新技术路线上实现「弯道超车」。</p>
+</div>
+<div class="box" style="border-left:4px solid var(--c4)">
+<p><strong>4. 短板最明显的赛道：ABF 载板材料</strong></p>
+<p>ABF 材料被日本味之素垄断（>90%），高端 ABF 载板国产化率 <5%。这是整个产业链中最需要突破的环节，预计还需要 3-5 年。</p>
+</div>
+
+<div class="cal-b">
+<strong>总结</strong>：四大赛道各有特点。CoWoS 看台积电扩产节奏，玻璃基板看 Intel/三星量产进展，PCB 看国产替代突破，CPO 看 NVIDIA 商用化进度。投资者应关注各赛道的核心瓶颈和国产替代节点。
+</div>
+</section>
+
+</main>
+</div>
+
+<footer class="ft">
+<p>芯片先进封装与基板技术深度分析报告 · 2026 年 5 月</p>
+<p style="margin-top:4px">基于公开资料整理，不构成投资建议。数据截至 2026 年 5 月，以实际为准。</p>
+</footer>
+
+<button class="bt" id="bt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const b=document.getElementById('bt');
+window.addEventListener('scroll',()=>b.classList.toggle('show',scrollY>400));
+const o=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')}),{threshold:.06});
+document.querySelectorAll('.fi2').forEach(e=>o.observe(e));
+const ss=document.querySelectorAll('.sec[id]'),na=document.querySelectorAll('.side nav a');
+window.addEventListener('scroll',()=>{let c='';ss.forEach(s=>{if(scrollY>=s.offsetTop-60)c=s.id});na.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active')})});
+na.forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=900)document.querySelector('.side').classList.remove('open')}));
+</script>
+</body>
+</html>
