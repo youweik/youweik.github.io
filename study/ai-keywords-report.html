@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 AI 领域关键词全景解读报告</title>
+<style>
+:root{
+--bg:#f6f8fc;--bg2:#eef2f9;--card:#fff;--border:#dfe6f0;
+--text:#1a2236;--text2:#4a5568;--text3:#7a8599;
+--green:#10b981;--green-bg:#ecfdf5;--green-border:#a7f3d0;
+--blue:#3b82f6;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+--purple:#8b5cf6;--purple-bg:#f5f3ff;--purple-border:#ddd6fe;
+--orange:#f59e0b;--orange-bg:#fffbeb;--orange-border:#fde68a;
+--red:#ef4444;--red-bg:#fef2f2;--red-border:#fecaca;
+--pink:#ec4899;--pink-bg:#fdf2f8;--pink-border:#fbcfe8;
+--teal:#14b8a6;--teal-bg:#f0fdfa;--teal-border:#99f6e4;
+--indigo:#6366f1;--indigo-bg:#eef2ff;--indigo-border:#c7d2fe;
+--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+--shadow-lg:0 10px 30px rgba(0,0,0,.08);
+--radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC','PingFang SC','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);line-height:1.85;font-size:16px}
+a{color:var(--blue);text-decoration:none;transition:.2s}a:hover{color:var(--indigo);text-decoration:underline}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:80px 24px 60px;text-align:center;background:linear-gradient(135deg,#eef2ff 0%,#f0fdfa 30%,#eff6ff 60%,#fdf2f8 100%)}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,.08),transparent 70%);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(16,185,129,.06),transparent 70%);border-radius:50%}
+.hero-badge{display:inline-block;padding:6px 20px;background:var(--indigo-bg);border:1px solid var(--indigo-border);border-radius:50px;font-size:13px;font-weight:600;color:var(--indigo);margin-bottom:24px;position:relative;z-index:1}
+.hero h1{font-size:clamp(2rem,5vw,3rem);font-weight:800;color:var(--text);margin-bottom:16px;position:relative;z-index:1;line-height:1.3}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:680px;margin:0 auto 32px;position:relative;z-index:1}
+.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.hero-stat{text-align:center}
+.hero-stat .num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--indigo),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-stat .label{font-size:12px;color:var(--text3);margin-top:2px}
+
+/* Layout */
+.sidebar{width:260px;position:fixed;top:0;left:0;height:100vh;background:var(--card);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;z-index:100;transition:transform .3s;box-shadow:var(--shadow)}
+.sidebar-title{padding:0 20px 16px;font-size:15px;font-weight:700;color:var(--indigo);border-bottom:1px solid var(--border);margin-bottom:10px}
+.sidebar nav a{display:block;padding:6px 20px;color:var(--text2);font-size:13px;border-left:3px solid transparent;transition:.2s}
+.sidebar nav a:hover,.sidebar nav a.active{color:var(--indigo);background:var(--indigo-bg);border-left-color:var(--indigo);text-decoration:none}
+.sidebar nav a.lv2{padding-left:34px;font-size:12px}
+
+.main{margin-left:260px;padding:40px 50px 80px;max-width:880px}
+
+/* Section */
+.sec{margin-bottom:48px;scroll-margin-top:32px}
+.sec h2{font-size:1.6rem;font-weight:700;margin-bottom:20px;color:var(--text);display:flex;align-items:center;gap:10px}
+.sec h2 .sec-icon{font-size:1.3rem}
+.sec h3{font-size:1.15rem;font-weight:600;margin:26px 0 12px;color:var(--text)}
+.sec h4{font-size:1rem;font-weight:600;margin:18px 0 8px;color:var(--text2)}
+.sec p{margin-bottom:14px;color:var(--text2)}
+
+/* Concept Card */
+.concept{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin:24px 0;box-shadow:var(--shadow)}
+.concept-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.concept-badge{padding:4px 14px;border-radius:8px;font-size:12px;font-weight:700;color:#fff;white-space:nowrap}
+.concept-title{font-size:1.3rem;font-weight:700;color:var(--text)}
+.concept-en{font-size:13px;color:var(--text3);font-weight:400;margin-left:4px}
+.concept p{font-size:15px;line-height:1.9}
+
+/* Callout */
+.callout{padding:14px 18px;border-radius:12px;margin:16px 0;border:1px solid}
+.callout-green{background:var(--green-bg);border-color:var(--green-border)}.callout-green::before{content:'💡 ';font-weight:700;color:var(--green)}
+.callout-blue{background:var(--blue-bg);border-color:var(--blue-border)}.callout-blue::before{content:'📖 ';font-weight:700;color:var(--blue)}
+.callout-orange{background:var(--orange-bg);border-color:var(--orange-border)}.callout-orange::before{content:'⚠️ ';font-weight:700;color:var(--orange)}
+.callout-purple{background:var(--purple-bg);border-color:var(--purple-border)}.callout-purple::before{content:'🔗 ';font-weight:700;color:var(--purple)}
+
+/* Compare */
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+.vs-col{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border)}
+.vs-col h4{text-align:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+/* Tags */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.tag{display:inline-block;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--text2);transition:.2s}
+.tag:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.tag-cat{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;margin-bottom:6px}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;margin:14px 0;background:var(--card);border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--bg2);padding:10px 16px;text-align:left;font-weight:600;color:var(--text);border-bottom:2px solid var(--border);white-space:nowrap;font-size:13px}
+td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+
+/* Timeline */
+.timeline{position:relative;padding-left:28px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:'';position:absolute;left:-24px;top:7px;width:12px;height:12px;border-radius:50%;border:2px solid var(--indigo);background:var(--card)}
+.tl-item h4{color:var(--text);margin-bottom:4px;font-size:15px}
+.tl-item p{font-size:14px;margin:0}
+
+/* Code */
+pre{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:18px 22px;overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.7}
+code{font-family:'JetBrains Mono','Fira Code','SF Mono',Consolas,monospace}
+:not(pre)>code{background:var(--purple-bg);padding:2px 8px;border-radius:4px;font-size:.88em;color:var(--purple);border:1px solid var(--purple-border)}
+
+/* Flow */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:16px 0;justify-content:center}
+.flow-item{background:var(--card);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-size:13px;box-shadow:var(--shadow)}
+.flow-arrow{color:var(--indigo);font-size:16px}
+
+/* Stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:20px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;box-shadow:var(--shadow)}
+.stat-card .num{font-size:1.6rem;font-weight:800;margin-bottom:4px}
+.stat-card .label{font-size:12px;color:var(--text3)}
+
+/* Map */
+.map-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+.map-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);transition:.2s}
+.map-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.map-card .icon{font-size:1.6rem;margin-bottom:8px}
+.map-card h4{font-size:15px;color:var(--text);margin-bottom:4px}
+.map-card p{font-size:13px;color:var(--text3);margin:0}
+
+/* Footer */
+.footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border);color:var(--text3);font-size:13px;margin-left:260px;background:var(--bg2)}
+
+/* Back top */
+.back-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;background:var(--indigo);color:#fff;border:none;border-radius:50%;font-size:16px;cursor:pointer;opacity:0;transition:.3s;z-index:200;box-shadow:0 4px 12px rgba(99,102,241,.3)}
+.back-top.show{opacity:1}.back-top:hover{transform:translateY(-2px)}
+
+.menu-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;width:36px;height:36px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;cursor:pointer;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.menu-toggle{display:flex}.main{margin-left:0;padding:20px}.footer{margin-left:0}.vs-grid{grid-template-columns:1fr}}
+.fade-in{opacity:0;transform:translateY(14px);transition:all .5s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">📊 2026 年度 AI 领域全景解读</div>
+  <h1>AI 关键词全景解读报告</h1>
+  <p>30+ 核心概念，从 MCP 到 Agent，从 RAG 到 Vibe Coding，用大白话一次讲透。让你不再被 AI 黑话劝退。</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">30+</div><div class="label">核心关键词</div></div>
+    <div class="hero-stat"><div class="num">7</div><div class="label">知识分类</div></div>
+    <div class="hero-stat"><div class="num">2026</div><div class="label">最新前沿</div></div>
+  </div>
+</section>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+  <div class="sidebar-title">📑 报告目录</div>
+  <nav>
+    <a href="#overview">全景地图</a>
+    <a href="#foundation">基础概念层</a>
+    <a href="#foundation-llm" class="lv2">LLM 大语言模型</a>
+    <a href="#foundation-token" class="lv2">Token 与上下文窗口</a>
+    <a href="#foundation-embedding" class="lv2">Embedding 向量嵌入</a>
+    <a href="#protocol">协议与标准层</a>
+    <a href="#protocol-mcp" class="lv2">MCP 协议</a>
+    <a href="#protocol-a2a" class="lv2">A2A 协议</a>
+    <a href="#protocol-skill" class="lv2">Skill 技能系统</a>
+    <a href="#agent">Agent 智能体层</a>
+    <a href="#agent-agent" class="lv2">AI Agent</a>
+    <a href="#agent-tool" class="lv2">Tool Use 工具调用</a>
+    <a href="#agent-rag" class="lv2">RAG 检索增强</a>
+    <a href="#agent-cot" class="lv2">CoT 思维链</a>
+    <a href="#training">模型训练层</a>
+    <a href="#training-sft" class="lv2">SFT 微调</a>
+    <a href="#training-rlhf" class="lv2">RLHF / DPO</a>
+    <a href="#training-lora" class="lv2">LoRA / 量化</a>
+    <a href="#training-moe" class="lv2">MoE 混合专家</a>
+    <a href="#app">应用与趋势层</a>
+    <a href="#app-vibe" class="lv2">Vibe Coding</a>
+    <a href="#app-deepresearch" class="lv2">Deep Research</a>
+    <a href="#app-computer" class="lv2">Computer Use</a>
+    <a href="#app-reasoning" class="lv2">推理模型</a>
+    <a href="#app-agentic" class="lv2">Agentic Workflow</a>
+    <a href="#relations">概念关系图谱</a>
+    <a href="#glossary">速查术语表</a>
+  </nav>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<div style="display:flex;max-width:1400px;margin:0 auto">
+<main class="main">
+
+<!-- ===== 全景地图 ===== -->
+<section class="sec fade-in" id="overview">
+<h2><span class="sec-icon">🗺️</span>AI 知识全景地图</h2>
+<p>AI 领域的关键词就像一棵大树。理解它们的最好方式，是按「从底层到上层」的顺序来看：</p>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="num" style="color:var(--blue)">🧱</div><div class="label">基础概念层<br>模型、Token、向量</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--purple)">📡</div><div class="label">协议标准层<br>MCP、A2A、Skill</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--green)">🤖</div><div class="label">智能体层<br>Agent、RAG、CoT</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--orange)">🏋️</div><div class="label">模型训练层<br>RLHF、LoRA、MoE</div></div>
+  <div class="stat-card"><div class="num" style="color:var(--pink)">🚀</div><div class="label">应用趋势层<br>Vibe Coding、Deep Research</div></div>
+</div>
+
+<div class="callout-blue">
+<strong>阅读建议</strong>：不必一次看完所有内容。先看「全景地图」了解全貌，再按兴趣深入各个概念。每个概念都是独立的，可以跳跃阅读。
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 基础概念层 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="foundation">
+<h2><span class="sec-icon">🧱</span>基础概念层</h2>
+<p>这些是 AI 领域最基础的概念，理解了它们才能看懂后面的内容。</p>
+
+<div class="concept" id="foundation-llm">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--blue)">基础</span>
+    <span class="concept-title">LLM（大语言模型）<span class="concept-en">Large Language Model</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：LLM 就是一个「读完了整个互联网的超级学霸」，你问它问题，它能根据学过的知识给出回答。</p>
+  <p><strong>通俗解释</strong>：想象有一个人，他把世界上所有的书、文章、网页都读了一遍。你问他任何问题，他都能基于读过的内容给你一个回答。这就是大语言模型（LLM）做的事情。</p>
+  <p>它本质上是一个<strong>文字接龙游戏</strong>——给它一段文字，它预测下一个最可能出现的字。但因为读了太多东西，所以接龙的结果看起来就像是在「思考」。</p>
+  <div class="callout-green">
+  <strong>代表产品</strong>：GPT-4o（OpenAI）、Claude（Anthropic）、Gemini（Google）、DeepSeek、Llama（Meta）、Qwen（阿里）
+  </div>
+</div>
+
+<div class="concept" id="foundation-token">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--blue)">基础</span>
+    <span class="concept-title">Token（令牌）与 Context Window（上下文窗口）</span>
+  </div>
+  <p><strong>一句话理解</strong>：Token 是 AI 阅读文字的「最小单位」，上下文窗口是 AI 一次能「记住」多少内容。</p>
+  <p><strong>通俗解释</strong>：</p>
+  <ul style="margin-left:20px;color:var(--text2);margin-bottom:14px">
+    <li><strong>Token</strong> ≈ AI 眼里的「一个字」（但不完全等于）。英文中一个单词大约是 1-2 个 Token，中文一个字大约是 1-3 个 Token。</li>
+    <li><strong>上下文窗口</strong> ≈ AI 的「短期记忆容量」。如果上下文窗口是 128K Token，那 AI 一次能处理的文字量大概相当于一本 300 页的书。</li>
+  </ul>
+  <div class="callout-orange">
+  <strong>为什么重要</strong>：Token 决定了你用 AI 的费用（按 Token 计费），上下文窗口决定了 AI 能一次处理多少信息。窗口越大，AI 能「记住」的对话越长。
+  </div>
+</div>
+
+<div class="concept" id="foundation-embedding">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--blue)">基础</span>
+    <span class="concept-title">Embedding（向量嵌入）与 Vector DB（向量数据库）</span>
+  </div>
+  <p><strong>一句话理解</strong>：Embedding 就是把文字变成一串数字，让 AI 能理解「意思相近的文字应该靠得近」。</p>
+  <p><strong>通俗解释</strong>：AI 不认识汉字和英文，它只懂数字。Embedding 就是把「苹果」变成类似 <code>[0.23, -0.87, 0.45, ...]</code> 这样的一串数字（向量）。意思相近的词，数字也相近。比如「苹果」和「水果」的数字比「苹果」和「汽车」的数字要接近得多。</p>
+  <p><strong>向量数据库</strong>（如 Pinecone、Milvus、Chroma）就是专门存储这些数字的仓库。当你在 AI 里搜索「水果」时，它能快速找到所有数字相近的内容。</p>
+  <div class="callout-green">
+  <strong>应用场景</strong>：RAG（检索增强生成）的核心基础，让 AI 能搜索和理解你提供的私有文档。
+  </div>
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 协议与标准层 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="protocol">
+<h2><span class="sec-icon">📡</span>协议与标准层</h2>
+<p>这些是 2025-2026 年 AI 领域最重要的「通信协议」，决定了 AI 如何与外部世界交互。</p>
+
+<div class="concept" id="protocol-mcp">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--purple)">🔥 核心</span>
+    <span class="concept-title">MCP（模型上下文协议）<span class="concept-en">Model Context Protocol</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：MCP 是 AI 连接外部工具的「USB 接口」。有了它，AI 就能读取你的文件、调用 API、操作数据库。</p>
+  <p><strong>通俗解释</strong>：</p>
+  <p>以前的 AI 就像一个被关在房间里的人，只能靠你给他传纸条（输入文字）来工作。MCP 就是给这个房间装上了窗户、电话、互联网，让他可以直接：</p>
+  <ul style="margin-left:20px;color:var(--text2);margin-bottom:14px">
+    <li>📖 <strong>读取</strong>你电脑上的文件、数据库里的数据</li>
+    <li>✏️ <strong>操作</strong>你的设计工具（如 Figma、MasterGo）</li>
+    <li>🔧 <strong>调用</strong>各种外部 API 和服务</li>
+  </ul>
+  <p><strong>由谁制定</strong>：Anthropic（Claude 的公司）在 2024 年底发布，2025-2026 年成为行业标准。已得到 OpenAI、Google、Microsoft 等主要厂商支持。</p>
+  <div class="callout-purple">
+  <strong>MCP 的意义</strong>：它解决了 AI 的「信息孤岛」问题。没有 MCP，每个 AI 工具都要自己开发一套接口；有了 MCP，所有 AI 工具都可以用同一套标准连接外部世界。
+  </div>
+</div>
+
+<div class="concept" id="protocol-a2a">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--purple)">🔥 核心</span>
+    <span class="concept-title">A2A（Agent-to-Agent 协议）<span class="concept-en">Agent to Agent Protocol</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：如果 MCP 是让 AI 连接工具的「USB」，那 A2A 就是让 AI 和 AI 之间对话的「微信」。</p>
+  <p><strong>通俗解释</strong>：想象你有一个翻译 AI、一个写作 AI、一个设计 AI。A2A 协议让它们可以互相聊天协作：翻译 AI 翻译完后，自动把结果发给写作 AI 润色，再发给设计 AI 排版。</p>
+
+  <div class="vs-grid">
+    <div class="vs-col">
+      <h4 style="color:var(--purple)">🔌 MCP</h4>
+      <p style="font-size:13px"><strong>AI ↔ 工具</strong></p>
+      <ul style="font-size:13px;margin-left:16px">
+        <li>一个 AI 连接多个工具</li>
+        <li>Anthropic 制定</li>
+        <li>让 AI 能读写外部数据</li>
+      </ul>
+    </div>
+    <div class="vs-col">
+      <h4 style="color:var(--teal)">🤝 A2A</h4>
+      <p style="font-size:13px"><strong>AI ↔ AI</strong></p>
+      <ul style="font-size:13px;margin-left:16px">
+        <li>多个 AI 之间互相协作</li>
+        <li>Google 制定</li>
+        <li>让 AI 团队分工合作</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout-green">
+  <strong>互补关系</strong>：MCP 和 A2A 不冲突。MCP 解决「AI 怎么用工具」，A2A 解决「AI 之间怎么配合」。就像一个人既需要工具（MCP），也需要同事协作（A2A）。
+  </div>
+</div>
+
+<div class="concept" id="protocol-skill">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--purple)">🔥 核心</span>
+    <span class="concept-title">Skill（技能系统）<span class="concept-en">Skills / Skill System</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：Skill 就是给 AI 写的「SOP 操作手册」，让 AI 在特定场景下按固定流程做事。</p>
+  <p><strong>通俗解释</strong>：AI 很聪明但没有经验。Skill 就是给它装上各种「职业技能」。比如：</p>
+  <ul style="margin-left:20px;color:var(--text2);margin-bottom:14px">
+    <li><strong>brainstorming 技能</strong>：在写代码前先问你需求（而不是直接动手）</li>
+    <li><strong>TDD 技能</strong>：先写测试再写代码（而不是反过来）</li>
+    <li><strong>debugging 技能</strong>：按步骤排查 Bug（而不是瞎猜乱改）</li>
+  </ul>
+  <p><strong>代表项目</strong>：Superpowers（obra/superpowers）就是一个完整的 AI 编程技能包，包含 12 个技能。</p>
+  <div class="callout-blue">
+  <strong>Skills 的本质</strong>：就是精心编写的提示词文档（Prompt），通过 Hook 机制在合适的时机自动加载。不是代码，而是「行为规范」。
+  </div>
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== Agent 智能体层 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="agent">
+<h2><span class="sec-icon">🤖</span>Agent 智能体层</h2>
+<p>这是 2025-2026 年最火的方向——让 AI 从「只会聊天」变成「会干活」。</p>
+
+<div class="concept" id="agent-agent">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--green)">🔥 核心</span>
+    <span class="concept-title">AI Agent（AI 智能体）</span>
+  </div>
+  <p><strong>一句话理解</strong>：Agent = AI + 行动力。不再只是回答问题，而是能自己规划、使用工具、执行任务的「AI 员工」。</p>
+  <p><strong>通俗解释</strong>：</p>
+  <div class="vs-grid">
+    <div class="vs-col">
+      <h4>💬 普通 AI 对话</h4>
+      <p style="font-size:13px">你问一句，它答一句。像咨询顾问，只给建议不干活。</p>
+      <p style="font-size:13px"><em>「帮我写个排序算法」→ 它输出代码，你自己复制粘贴</em></p>
+    </div>
+    <div class="vs-col">
+      <h4>🤖 AI Agent</h4>
+      <p style="font-size:13px">你给个目标，它自己想办法完成。像实习生，你说需求它来执行。</p>
+      <p style="font-size:13px"><em>「帮我做个登录页面」→ 它自己规划、写代码、测试、修复</em></p>
+    </div>
+  </div>
+  <p><strong>Agent 的核心能力</strong>：</p>
+  <div class="flow">
+    <div class="flow-item">🎯 理解目标</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">📋 制定计划</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🔧 调用工具</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🔄 循环执行</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">✅ 完成任务</div>
+  </div>
+  <p><strong>代表产品</strong>：Claude Code、Cursor、OpenAI Codex、Devin、Manus 等。</p>
+</div>
+
+<div class="concept" id="agent-tool">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--green)">智能体</span>
+    <span class="concept-title">Tool Use / Function Calling（工具调用 / 函数调用）</span>
+  </div>
+  <p><strong>一句话理解</strong>：让 AI 不只是说话，还能「动手干活」——调用外部函数和工具。</p>
+  <p><strong>通俗解释</strong>：你问 AI「北京今天天气怎么样？」，AI 本身不知道实时天气。但如果有 <code>get_weather(city)</code> 这个工具，AI 就能自动调用它获取真实天气数据，然后告诉你。</p>
+  <p><strong>Function Calling</strong> 是 OpenAI 最早提出的概念，<strong>Tool Use</strong> 是 Anthropic 的叫法，本质一样——让 AI 决定什么时候该调用什么工具，并传什么参数。</p>
+  <pre><code>// AI 看到你的问题后，自动决定调用工具
+{
+  "tool": "get_weather",
+  "arguments": { "city": "北京" }
+}
+
+// 拿到结果后，AI 再回答你
+"北京今天 28°C，晴天，适合出门。"</code></pre>
+</div>
+
+<div class="concept" id="agent-rag">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--green)">智能体</span>
+    <span class="concept-title">RAG（检索增强生成）<span class="concept-en">Retrieval-Augmented Generation</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：RAG 就是让 AI 「翻书找答案」再回答你，而不是凭记忆瞎编。</p>
+  <p><strong>通俗解释</strong>：AI 的知识有截止日期（比如 Claude 的知识到 2025 年初），你问它 2026 年的新闻它不知道。RAG 的做法是：先从你的文档库里<strong>检索</strong>相关内容，然后把找到的内容给 AI 看，让 AI 基于这些真实内容来<strong>生成</strong>回答。</p>
+  <div class="flow">
+    <div class="flow-item">❓ 你的问题</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🔍 搜索文档库</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">📄 找到相关内容</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🤖 AI 基于内容回答</div>
+  </div>
+  <div class="callout-green">
+  <strong>为什么重要</strong>：RAG 解决了 AI 的两大问题：①知识过时 ②不知道你的私有数据。现在几乎所有企业 AI 应用都用 RAG。
+  </div>
+</div>
+
+<div class="concept" id="agent-cot">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--green)">智能体</span>
+    <span class="concept-title">CoT（思维链）<span class="concept-en">Chain of Thought</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：让 AI 「一步一步想」再回答，而不是直接蹦出答案。</p>
+  <p><strong>通俗解释</strong>：你问一个复杂问题，如果直接要答案，AI 可能答错。但如果你让它「一步步想」，准确率会高很多。就像数学考试，写出解题步骤比直接写答案更靠谱。</p>
+  <p><strong>推理模型</strong>（如 OpenAI o1/o3、Claude 的 extended thinking）就是把 CoT 内化了——模型自动在回答前进行深度思考。</p>
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 模型训练层 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="training">
+<h2><span class="sec-icon">🏋️</span>模型训练层</h2>
+<p>了解这些概念，你就能看懂 AI 技术文章里那些「RLHF」「LoRA」到底在说什么。</p>
+
+<div class="concept" id="training-sft">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--orange)">训练</span>
+    <span class="concept-title">SFT（监督微调）<span class="concept-en">Supervised Fine-Tuning</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：给 AI 上「专业课」，让它从通才变成专家。</p>
+  <p><strong>通俗解释</strong>：基础模型什么都会一点，但不够专业。SFT 就是拿一批「问题-标准答案」的教材来教它，让它在某个领域更专业。比如拿大量医疗问答数据训练，它就变成医疗 AI。</p>
+  <div class="flow">
+    <div class="flow-item">🧠 基础模型（通才）</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">📚 喂专业教材</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">👨‍⚕️ 领域专家</div>
+  </div>
+</div>
+
+<div class="concept" id="training-rlhf">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--orange)">训练</span>
+    <span class="concept-title">RLHF / DPO / GRPO（对齐训练）</span>
+  </div>
+  <p><strong>一句话理解</strong>：教 AI 什么该说、什么不该说，让它的回答更符合人类偏好。</p>
+  <p><strong>通俗解释</strong>：基础模型学会了语言，但不知道人类喜欢什么样的回答。对齐训练就是教它：</p>
+  <ul style="margin-left:20px;color:var(--text2);margin-bottom:14px">
+    <li>要有礼貌，不要说脏话</li>
+    <li>要诚实，不要编造事实</li>
+    <li>要安全，不要教人做坏事</li>
+  </ul>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>方法</th><th>全称</th><th>通俗理解</th></tr>
+    <tr><td><strong>RLHF</strong></td><td>Reinforcement Learning from Human Feedback</td><td>人类给 AI 的回答打分，AI 根据分数自我改进</td></tr>
+    <tr><td><strong>DPO</strong></td><td>Direct Preference Optimization</td><td>简化版 RLHF，直接比较「好回答」和「差回答」</td></tr>
+    <tr><td><strong>GRPO</strong></td><td>Group Relative Policy Optimization</td><td>DeepSeek 提出的新方法，更高效的对齐训练</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="concept" id="training-lora">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--orange)">训练</span>
+    <span class="concept-title">LoRA / QLoRA / 量化（Quantization）</span>
+  </div>
+  <p><strong>一句话理解</strong>：用更少的资源（显卡、钱）来训练和运行 AI 模型。</p>
+  <p><strong>通俗解释</strong>：</p>
+  <ul style="margin-left:20px;color:var(--text2);margin-bottom:14px">
+    <li><strong>LoRA</strong>（Low-Rank Adaptation）：不全量训练模型，只训练一小部分参数。就像给一本书加批注，而不是重写整本书。成本低 90%+。</li>
+    <li><strong>量化</strong>（Quantization）：把模型从高精度压缩到低精度。就像把 4K 视频压缩成 1080P，画质略降但体积小了很多。</li>
+    <li><strong>QLoRA</strong> = 量化 + LoRA，先压缩再微调，在消费级显卡上就能跑。</li>
+  </ul>
+  <div class="callout-green">
+  <strong>为什么重要</strong>：没有这些技术，你需要花几百万美元训练一个模型。有了它们，几千美元甚至免费就能在个人电脑上微调自己的 AI 模型。
+  </div>
+</div>
+
+<div class="concept" id="training-moe">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--orange)">训练</span>
+    <span class="concept-title">MoE（混合专家模型）<span class="concept-en">Mixture of Experts</span></span>
+  </div>
+  <p><strong>一句话理解</strong>：MoE 就像一个公司有很多部门，每次任务只激活相关部门，而不是全员出动。</p>
+  <p><strong>通俗解释</strong>：传统模型处理每个问题时，所有参数都参与计算（全员出动）。MoE 模型把参数分成多个「专家组」，每次只调用最相关的几个专家。这样模型可以很大（能力强），但计算量不会成比例增长。</p>
+  <p><strong>代表模型</strong>：GPT-4、DeepSeek-V3、Mixtral 都使用了 MoE 架构。</p>
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 应用与趋势层 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="app">
+<h2><span class="sec-icon">🚀</span>应用与趋势层</h2>
+<p>这些是 2025-2026 年最热门的 AI 应用方向。</p>
+
+<div class="concept" id="app-vibe">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--pink)">🔥 热门</span>
+    <span class="concept-title">Vibe Coding（氛围编程）</span>
+  </div>
+  <p><strong>一句话理解</strong>：不用写代码，用自然语言描述你想要什么，AI 帮你写。编程变成了一种「感觉对了就行」的事。</p>
+  <p><strong>通俗解释</strong>：以前写代码需要学编程语言。Vibe Coding 让你只需要用中文/英文描述你要什么，AI 来写代码。你不一定要理解每一行代码，只要最终效果「感觉对了」就行。</p>
+  <p><strong>代表工具</strong>：Cursor、Claude Code、v0 by Vercel、Lovable、Bolt.new、Replit 等。</p>
+  <div class="callout-orange">
+  <strong>争议</strong>：专业开发者担心 Vibe Coding 产出的代码质量不可控。但随着 AI 能力提升和工具链（如 Superpowers）的完善，代码质量正在快速改善。
+  </div>
+</div>
+
+<div class="concept" id="app-deepresearch">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--pink)">🔥 热门</span>
+    <span class="concept-title">Deep Research（深度研究）</span>
+  </div>
+  <p><strong>一句话理解</strong>：让 AI 替你做深度调研——自动搜索、阅读、分析大量资料，然后给你一份完整的研究报告。</p>
+  <p><strong>通俗解释</strong>：以前做调研，你要自己 Google、读论文、整理笔记。现在告诉 AI「帮我研究一下 XX」，它会自动搜索几十个网页、读论文、交叉验证，最后给你一份带引用的完整报告。</p>
+  <p><strong>代表产品</strong>：ChatGPT Deep Research、Gemini Deep Research、Perplexity Pro、Grok 等。</p>
+</div>
+
+<div class="concept" id="app-computer">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--pink)">趋势</span>
+    <span class="concept-title">Computer Use（计算机操控）</span>
+  </div>
+  <p><strong>一句话理解</strong>：AI 直接看着你的屏幕，帮你操作电脑——点击、输入、打开应用。</p>
+  <p><strong>通俗解释</strong>：AI 不再只是文字对话，它能「看到」你的电脑屏幕，像人一样操作鼠标和键盘。你可以说「帮我把这个 Excel 里的数据整理成图表」，它会自己打开 Excel、选中数据、创建图表。</p>
+  <p><strong>代表产品</strong>：Claude Computer Use、OpenAI Operator、Google Project Mariner 等。</p>
+</div>
+
+<div class="concept" id="app-reasoning">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--pink)">趋势</span>
+    <span class="concept-title">Reasoning Models（推理模型）</span>
+  </div>
+  <p><strong>一句话理解</strong>：新一代 AI 模型会「深度思考」了——在回答前花时间推理，解决复杂数学和编程问题。</p>
+  <p><strong>通俗解释</strong>：传统 AI 是「快问快答」。推理模型是「深思熟虑」——面对复杂问题，它会在内部进行大量思考和验证，然后再给出答案。</p>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>模型</th><th>公司</th><th>特点</th></tr>
+    <tr><td>o1 / o3 / o4-mini</td><td>OpenAI</td><td>推理能力强，擅长数学和编程</td></tr>
+    <tr><td>Claude with Extended Thinking</td><td>Anthropic</td><td>可展示思考过程，长链推理</td></tr>
+    <tr><td>Gemini 2.5 Pro</td><td>Google</td><td>内置推理能力，多模态</td></tr>
+    <tr><td>DeepSeek-R1</td><td>DeepSeek</td><td>开源推理模型，性价比高</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="concept" id="app-agentic">
+  <div class="concept-header">
+    <span class="concept-badge" style="background:var(--pink)">🔥 热门</span>
+    <span class="concept-title">Agentic Workflow（智能体工作流）</span>
+  </div>
+  <p><strong>一句话理解</strong>：让多个 AI Agent 按照工作流程自动协作，像一支训练有素的团队。</p>
+  <p><strong>通俗解释</strong>：一个 Agent 不够用？Agentic Workflow 让多个 Agent 分工合作。比如：</p>
+  <div class="flow">
+    <div class="flow-item">📝 规划 Agent<br><small>拆解任务</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">💻 编码 Agent<br><small>写代码</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🔍 审查 Agent<br><small>检查质量</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-item">🧪 测试 Agent<br><small>跑测试</small></div>
+  </div>
+  <p>这正是 Superpowers 项目在做的事情——通过 Skill 系统定义每个 Agent 的职责和工作流程。</p>
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 概念关系图谱 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="relations">
+<h2><span class="sec-icon">🕸️</span>概念关系图谱</h2>
+<p>所有关键词不是孤立存在的，它们之间有着紧密的联系：</p>
+
+<div class="map-grid">
+  <div class="map-card" style="border-top:4px solid var(--blue)">
+    <div class="icon">🧠</div>
+    <h4>模型基座</h4>
+    <p>LLM 是一切的基础。通过 SFT 微调和 RLHF 对齐后变成有用的助手。MoE 让模型更大但计算更省。LoRA 让微调更便宜。</p>
+  </div>
+  <div class="map-card" style="border-top:4px solid var(--purple)">
+    <div class="icon">📡</div>
+    <h4>连接协议</h4>
+    <p>MCP 让 AI 连接工具，A2A 让 AI 之间协作。Skill 定义 AI 的行为规范。三者共同构成了 AI Agent 的「神经系统」。</p>
+  </div>
+  <div class="map-card" style="border-top:4px solid var(--green)">
+    <div class="icon">🤖</div>
+    <h4>智能体能力</h4>
+    <p>Agent 通过 Tool Use 调用外部能力，通过 RAG 获取私有知识，通过 CoT 进行深度推理。这些能力让 AI 从「聊天机器人」变成「工作者」。</p>
+  </div>
+  <div class="map-card" style="border-top:4px solid var(--pink)">
+    <div class="icon">🚀</div>
+    <h4>应用前沿</h4>
+    <p>Agent 能力催生了 Vibe Coding、Deep Research、Computer Use 等新应用。多个 Agent 组成 Agentic Workflow 完成复杂任务。</p>
+  </div>
+</div>
+
+<h3>一句话串起所有概念</h3>
+<div class="callout-blue" style="font-size:15px;line-height:2">
+基于 <strong>LLM</strong> 大语言模型（使用 <strong>MoE</strong> 架构降低成本），通过 <strong>SFT</strong> 微调和 <strong>RLHF</strong> 对齐训练变成有用的助手。用户输入的 <strong>Token</strong> 经过 <strong>Embedding</strong> 向量化存储在 <strong>向量数据库</strong> 中供 <strong>RAG</strong> 检索。AI 通过 <strong>MCP</strong> 协议连接外部工具，通过 <strong>A2A</strong> 协议与其他 AI 协作。 <strong>Skill</strong> 技能系统定义了 AI 的行为规范。 <strong>AI Agent</strong> 利用 <strong>Tool Use</strong> 调用工具，使用 <strong>CoT</strong> 思维链进行推理，通过 <strong>Agentic Workflow</strong> 组成团队完成复杂任务。这就是 <strong>Vibe Coding</strong>、<strong>Deep Research</strong> 和 <strong>Computer Use</strong> 等前沿应用的基础。
+</div>
+</section>
+
+<!-- ============================================ -->
+<!-- ===== 速查术语表 ===== -->
+<!-- ============================================ -->
+<section class="sec fade-in" id="glossary">
+<h2><span class="sec-icon">📋</span>速查术语表</h2>
+
+<div class="tbl-wrap">
+<table>
+  <tr><th>术语</th><th>全称</th><th>一句话解释</th></tr>
+  <tr><td><strong>LLM</strong></td><td>Large Language Model</td><td>读完了互联网的超级学霸</td></tr>
+  <tr><td><strong>Token</strong></td><td>-</td><td>AI 眼里的「一个字」，计费单位</td></tr>
+  <tr><td><strong>Embedding</strong></td><td>Vector Embedding</td><td>把文字变成数字，让 AI 能比较意思的远近</td></tr>
+  <tr><td><strong>MCP</strong></td><td>Model Context Protocol</td><td>AI 连接外部工具的「USB 接口」</td></tr>
+  <tr><td><strong>A2A</strong></td><td>Agent-to-Agent Protocol</td><td>AI 之间互相协作的「微信群」</td></tr>
+  <tr><td><strong>Skill</strong></td><td>Skill System</td><td>给 AI 写的「SOP 操作手册」</td></tr>
+  <tr><td><strong>Agent</strong></td><td>AI Agent</td><td>会自己规划、用工具、干活的 AI</td></tr>
+  <tr><td><strong>Tool Use</strong></td><td>Tool Use / Function Calling</td><td>让 AI 能调用外部函数和工具</td></tr>
+  <tr><td><strong>RAG</strong></td><td>Retrieval-Augmented Generation</td><td>让 AI 先「翻书找答案」再回答</td></tr>
+  <tr><td><strong>CoT</strong></td><td>Chain of Thought</td><td>让 AI「一步一步想」再回答</td></tr>
+  <tr><td><strong>SFT</strong></td><td>Supervised Fine-Tuning</td><td>给 AI 上「专业课」</td></tr>
+  <tr><td><strong>RLHF</strong></td><td>Reinforcement Learning from Human Feedback</td><td>人类打分，AI 自我改进</td></tr>
+  <tr><td><strong>DPO</strong></td><td>Direct Preference Optimization</td><td>简化版 RLHF</td></tr>
+  <tr><td><strong>GRPO</strong></td><td>Group Relative Policy Optimization</td><td>DeepSeek 的高效对齐方法</td></tr>
+  <tr><td><strong>LoRA</strong></td><td>Low-Rank Adaptation</td><td>只训练一小部分参数，省钱省力</td></tr>
+  <tr><td><strong>Quantization</strong></td><td>模型量化</td><td>压缩模型精度，降低运行成本</td></tr>
+  <tr><td><strong>MoE</strong></td><td>Mixture of Experts</td><td>分部门干活，不全员出动</td></tr>
+  <tr><td><strong>Vibe Coding</strong></td><td>-</td><td>用自然语言描述需求，AI 写代码</td></tr>
+  <tr><td><strong>Deep Research</strong></td><td>-</td><td>AI 自动做深度调研出报告</td></tr>
+  <tr><td><strong>Computer Use</strong></td><td>-</td><td>AI 直接操作你的电脑</td></tr>
+  <tr><td><strong>Prompt</strong></td><td>Prompt Engineering</td><td>给 AI 的指令，问问题的技巧</td></tr>
+  <tr><td><strong>Fine-tuning</strong></td><td>-</td><td>在基础模型上进一步训练</td></tr>
+  <tr><td><strong>Context Window</strong></td><td>-</td><td>AI 的「短期记忆容量」</td></tr>
+  <tr><td><strong>Vector DB</strong></td><td>Vector Database</td><td>存储向量数字的专门数据库</td></tr>
+  <tr><td><strong>Agentic Workflow</strong></td><td>-</td><td>多个 AI Agent 组成工作流自动协作</td></tr>
+  <tr><td><strong>Hook</strong></td><td>Hook Mechanism</td><td>在特定事件发生时自动触发的机制</td></tr>
+  <tr><td><strong>Subagent</strong></td><td>Sub-Agent</td><td>主 Agent 派出的「小弟 Agent」</td></tr>
+  <tr><td><strong>TDD</strong></td><td>Test-Driven Development</td><td>先写测试再写代码</td></tr>
+  <tr><td><strong>Worktree</strong></td><td>Git Worktree</td><td>Git 的独立工作空间</td></tr>
+</table>
+</div>
+</section>
+
+</main>
+</div>
+
+<footer class="footer">
+  <p>2026 AI 领域关键词全景解读报告</p>
+  <p style="margin-top:6px">基于公开资料整理，欢迎分享学习</p>
+</footer>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const bt=document.getElementById('backTop');
+window.addEventListener('scroll',()=>bt.classList.toggle('show',scrollY>400));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+const secs=document.querySelectorAll('.sec[id]'),navAs=document.querySelectorAll('.sidebar nav a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(scrollY>=s.offsetTop-80)c=s.id});navAs.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active')})});
+navAs.forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=900)document.querySelector('.sidebar').classList.remove('open')}));
+</script>
+</body>
+</html>
