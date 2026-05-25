@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Chat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: #1a1a2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    }
+
+    /* 手机外框 */
+    .phone-frame {
+      width: 375px;
+      height: 812px;
+      background: #0e1621;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 3px #1a1a2e,
+        0 0 0 6px #2a2a3e,
+        0 20px 60px rgba(0,0,0,0.5),
+        0 0 80px rgba(42,171,238,0.08);
+    }
+
+    /* 状态栏 */
+    .status-bar {
+      height: 44px;
+      background: #17212b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      position: relative;
+      z-index: 10;
+    }
+
+    .status-bar .time {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .status-bar .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-bar .status-icons svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    .signal-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5px;
+      height: 12px;
+    }
+
+    .signal-bars span {
+      width: 3px;
+      background: #fff;
+      border-radius: 1px;
+    }
+
+    .signal-bars span:nth-child(1) { height: 4px; }
+    .signal-bars span:nth-child(2) { height: 6px; }
+    .signal-bars span:nth-child(3) { height: 9px; }
+    .signal-bars span:nth-child(4) { height: 12px; }
+
+    .battery {
+      width: 25px;
+      height: 12px;
+      border: 1.5px solid #fff;
+      border-radius: 3px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 1.5px;
+    }
+
+    .battery::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      width: 2px;
+      height: 5px;
+      background: #fff;
+      border-radius: 0 1px 1px 0;
+    }
+
+    .battery-level {
+      width: 70%;
+      height: 100%;
+      background: #34c759;
+      border-radius: 1px;
+    }
+
+    /* 顶部导航栏 */
+    .top-bar {
+      height: 56px;
+      background: #17212b;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      border-bottom: 1px solid #0e1621;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .back-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #2aabee;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2aabee, #1e96d1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .channel-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .channel-name {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .channel-subscribers {
+      color: #6ab2f2;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .top-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 10px;
+    }
+
+    .top-bar-actions svg {
+      width: 22px;
+      height: 22px;
+      fill: #6ab2f2;
+      cursor: pointer;
+    }
+
+    /* 聊天区域 */
+    .chat-area {
+      height: calc(812px - 44px - 56px - 50px);
+      overflow-y: auto;
+      background: #0e1621;
+      padding: 8px 10px;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(42,171,238,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(42,171,238,0.02) 0%, transparent 50%);
+    }
+
+    .chat-area::-webkit-scrollbar {
+      width: 0;
+    }
+
+    /* 日期分隔 */
+    .date-separator {
+      text-align: center;
+      margin: 12px 0;
+    }
+
+    .date-separator span {
+      background: #182533;
+      color: #8b9bab;
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    /* 消息气泡 */
+    .message {
+      margin-bottom: 6px;
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      position: relative;
+    }
+
+    .message.outgoing {
+      align-self: flex-end;
+      align-items: flex-end;
+      margin-left: auto;
+    }
+
+    .message.incoming {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .bubble {
+      background: #182533;
+      border-radius: 12px;
+      padding: 8px 12px;
+      position: relative;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+
+    .message.incoming .bubble::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      background: #182533;
+      border-radius: 0 0 0 6px;
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+    }
+
+    .message.outgoing .bubble {
+      background: #2b5278;
+    }
+
+    .message.outgoing .bubble::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      background: #2b5278;
+      border-radius: 0 0 6px 0;
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+    }
+
+    /* 转发标签 */
+    .forward-tag {
+      color: #6ab2f2;
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .forward-tag svg {
+      width: 13px;
+      height: 13px;
+      fill: #6ab2f2;
+      flex-shrink: 0;
+    }
+
+    .forward-from {
+      color: #6ab2f2;
+      font-weight: 600;
+    }
+
+    /* 消息文本 */
+    .message-text {
+      color: #f5f5f5;
+      font-size: 15px;
+      line-height: 1.45;
+      letter-spacing: 0.1px;
+    }
+
+    .message-text .highlight {
+      color: #6ab2f2;
+      font-weight: 500;
+    }
+
+    .message-text .warning {
+      color: #ff9800;
+    }
+
+    .message-text .urgent {
+      color: #ef5350;
+      font-weight: 600;
+    }
+
+    .message-text .ticker {
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      color: #ce93d8;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* 消息时间和已读 */
+    .message-meta {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      margin-top: 2px;
+      float: right;
+      margin-left: 12px;
+      position: relative;
+      top: 4px;
+    }
+
+    .message-time {
+      color: #6b7d8e;
+      font-size: 12px;
+    }
+
+    .message.outgoing .message-time {
+      color: #6b8dad;
+    }
+
+    .read-checks {
+      display: flex;
+      align-items: center;
+    }
+
+    .read-checks svg {
+      width: 18px;
+      height: 12px;
+    }
+
+    .read-checks.read svg {
+      fill: #6ab2f2;
+    }
+
+    .read-checks.unread svg {
+      fill: #6b7d8e;
+    }
+
+    /* 表情回应 */
+    .reactions {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .reaction {
+      background: #1c2a3a;
+      border: 1px solid #263848;
+      border-radius: 12px;
+      padding: 2px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .reaction:hover {
+      background: #243646;
+    }
+
+    .reaction.active {
+      border-color: #2aabee;
+      background: rgba(42,171,238,0.12);
+    }
+
+    .reaction .emoji {
+      font-size: 14px;
+    }
+
+    .reaction .count {
+      color: #8b9bab;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .reaction.active .count {
+      color: #6ab2f2;
+    }
+
+    /* 语音消息 */
+    .voice-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .voice-play {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #2aabee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .voice-play:hover {
+      transform: scale(1.05);
+    }
+
+    .voice-play svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+      margin-left: 2px;
+    }
+
+    .voice-waveform {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 1.5px;
+      height: 28px;
+      padding: 0 2px;
+    }
+
+    .voice-waveform .bar {
+      width: 2.5px;
+      border-radius: 2px;
+      background: #2aabee;
+      transition: opacity 0.15s;
+    }
+
+    .voice-duration {
+      color: #6b7d8e;
+      font-size: 12px;
+      flex-shrink: 0;
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* 底部输入栏 */
+    .input-bar {
+      height: 50px;
+      background: #17212b;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 6px;
+      border-top: 1px solid #0e1621;
+    }
+
+    .input-bar .action-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.15s;
+    }
+
+    .input-bar .action-btn:hover {
+      background: rgba(42,171,238,0.1);
+    }
+
+    .input-bar .action-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: #6ab2f2;
+    }
+
+    .input-field {
+      flex: 1;
+      height: 36px;
+      background: #0e1621;
+      border: none;
+      border-radius: 18px;
+      padding: 0 14px;
+      color: #8b9bab;
+      font-size: 15px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .input-field::placeholder {
+      color: #5a6a7a;
+    }
+
+    .input-bar .mic-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #6ab2f2;
+    }
+
+    /* 新消息提示 (可选的动态效果) */
+    .unread-badge {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2aabee;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(42,171,238,0.3);
+      cursor: pointer;
+      z-index: 5;
+    }
+
+    /* 动画 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* 小屏幕适配 */
+    @media (max-width: 400px) {
+      .phone-frame {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      body {
+        background: #0e1621;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <!-- iOS 状态栏 -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <div class="signal-bars">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      <div class="battery">
+        <div class="battery-level"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Telegram 顶部栏 -->
+  <div class="top-bar">
+    <div class="back-btn">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    </div>
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    </div>
+    <div class="channel-info">
+      <div class="channel-name">华尔街内幕情报局</div>
+      <div class="channel-subscribers">12,847 位订阅者</div>
+    </div>
+    <div class="top-bar-actions">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </div>
+  </div>
+
+  <!-- 聊天内容 -->
+  <div class="chat-area">
+    <!-- 日期分隔 -->
+    <div class="date-separator">
+      <span>5月25日</span>
+    </div>
+
+    <!-- 消息1: 转发的内幕消息 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <div class="forward-tag">
+          <svg viewBox="0 0 24 24"><path d="M14 15c0-.55.45-1 1-1h4c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h1c1.1 0 2 .9 2 2v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-3zm5-11c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2h-4c-.55 0-1 .45-1 1v3c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h4c.55 0 1-.45 1-1V5c0-.55.45-1 1-1h6z"/></svg>
+          转发自 <span class="forward-from">陈总（供应链部）</span>
+        </div>
+        <span class="message-text"><span class="urgent">【紧急内幕】</span>消息人士透露，<span class="highlight">英伟达(NVDA)</span>正在重新评估其PCB供应链架构，预计将在下季度进行重大调整。多名供应链高管已确认此消息。</span>
+        <div class="message-meta">
+          <span class="message-time">14:23</span>
+        </div>
+      </div>
+      <div class="reactions">
+        <div class="reaction active">
+          <span class="emoji">👀</span>
+          <span class="count">23</span>
+        </div>
+        <div class="reaction">
+          <span class="emoji">🔥</span>
+          <span class="count">18</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 消息2: 更多细节 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <div class="forward-tag">
+          <svg viewBox="0 0 24 24"><path d="M14 15c0-.55.45-1 1-1h4c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h1c1.1 0 2 .9 2 2v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-3zm5-11c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2h-4c-.55 0-1 .45-1 1v3c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h4c.55 0 1-.45 1-1V5c0-.55.45-1 1-1h6z"/></svg>
+          转发自 <span class="forward-from">台湾线人</span>
+        </div>
+        <span class="message-text">核心供应商<span class="highlight">胜宏科技(SZ:300476)</span>预计将受到直接影响。据内部渠道了解，英伟达已开始与<span class="highlight">台光电</span>、<span class="highlight">欣兴电子</span>等台系PCB厂商进行替代方案洽谈。胜宏目前约占英伟达PCB采购份额的<span class="highlight">18-22%</span>。</span>
+        <div class="message-meta">
+          <span class="message-time">14:27</span>
+        </div>
+      </div>
+      <div class="reactions">
+        <div class="reaction">
+          <span class="emoji">😱</span>
+          <span class="count">9</span>
+        </div>
+        <div class="reaction active">
+          <span class="emoji">📊</span>
+          <span class="count">15</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 消息3: 操作建议 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <span class="message-text">⚡ <span class="highlight">操作建议：</span>胜宏短期承压明显，建议关注以下节点：
+1. 本周三英伟达供应链会议纪要
+2. 胜宏Q2财报前瞻数据
+3. 台系替代厂商（<span class="ticker">3038.TW</span>、<span class="ticker">3037.TW</span>）的异动情况
+
+<span class="warning">⚠️ 注意：此消息仅供内部参考，切勿外传</span></span>
+        <div class="message-meta">
+          <span class="message-time">14:32</span>
+        </div>
+      </div>
+      <div class="reactions">
+        <div class="reaction active">
+          <span class="emoji">🔥</span>
+          <span class="count">31</span>
+        </div>
+        <div class="reaction">
+          <span class="emoji">💡</span>
+          <span class="count">12</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 消息4: 语音消息 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <div class="forward-tag">
+          <svg viewBox="0 0 24 24"><path d="M14 15c0-.55.45-1 1-1h4c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h1c1.1 0 2 .9 2 2v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-3zm5-11c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2h-4c-.55 0-1 .45-1 1v3c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h4c.55 0 1-.45 1-1V5c0-.55.45-1 1-1h6z"/></svg>
+          转发自 <span class="forward-from">张 analyst</span>
+        </div>
+        <div class="voice-message">
+          <div class="voice-play">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="voice-waveform" id="waveform1"></div>
+          <span class="voice-duration">0:34</span>
+        </div>
+        <div class="message-meta">
+          <span class="message-time">14:38</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 消息5: 补充消息 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <span class="message-text">补充一下，据我了解英伟达这次调整主要是因为新一代<span class="highlight">Blackwell架构</span>的PCB规格要求变化，对HDI板层数和材料都有更高要求。胜宏在这块技术上确实存在瓶颈。
+
+这不是简单的砍单，而是<span class="highlight">技术路线切换</span>。</span>
+        <div class="message-meta">
+          <span class="message-time">14:45</span>
+        </div>
+      </div>
+      <div class="reactions">
+        <div class="reaction active">
+          <span class="emoji">👀</span>
+          <span class="count">28</span>
+        </div>
+        <div class="reaction">
+          <span class="emoji">🧠</span>
+          <span class="count">7</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 时间分隔 -->
+    <div class="date-separator" style="margin-top:16px;">
+      <span>5月25日</span>
+    </div>
+
+    <!-- 额外消息: 管理员通知 -->
+    <div class="message incoming">
+      <div class="bubble">
+        <span class="message-text">📌 <span class="highlight">管理员置顶：</span>本频道所有信息仅供研究参考，不构成任何投资建议。请各位严格遵守内控合规要求。</span>
+        <div class="message-meta">
+          <span class="message-time">08:15</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部输入栏 -->
+  <div class="input-bar">
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+    </div>
+    <input class="input-field" type="text" placeholder="写消息..." readonly>
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" fill="#6ab2f2"/></svg>
+    </div>
+    <div class="action-btn mic-btn">
+      <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 生成语音消息波形
+  (function() {
+    const waveform = document.getElementById('waveform1');
+    if (!waveform) return;
+
+    const barCount = 52;
+    const minH = 3;
+    const maxH = 22;
+
+    // 模拟真实语音波形的包络
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+
+      // 创建自然的语音波形形状
+      const progress = i / barCount;
+      const envelope = Math.sin(progress * Math.PI) * 0.7 + 0.3;
+      const jitter = Math.random() * 0.5 + 0.5;
+      const h = Math.round(minH + (maxH - minH) * envelope * jitter);
+      const opacity = 0.5 + Math.random() * 0.5;
+
+      bar.style.height = h + 'px';
+      bar.style.opacity = opacity;
+
+      // 前20%的条形用更深的颜色表示已播放
+      if (i < barCount * 0.15) {
+        bar.style.background = '#2aabee';
+      } else {
+        bar.style.background = '#3a8fc2';
+      }
+
+      waveform.appendChild(bar);
+    }
+  })();
+</script>
+
+</body>
+</html>
